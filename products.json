@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "name": "Camiseta Local del Manchester United 2026/27",
+    "price": 19.90,
+    "description": "Camiseta oficial del Manchester United para la temporada 2026/27 con el icónico diseño rojo y patrones sutiles.",
+    "image": "/assets/images/man-utd-home.jpg",
+    "team": "Manchester United",
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "inStock": true
+  },
+  {
+    "id": 2,
+    "name": "Camiseta Visitante del Liverpool 2026/27",
+    "price": 19.90,
+    "description": "Camiseta de visitante del Liverpool FC para la temporada 2026/27 con un llamativo diseño blanco y verde.",
+    "image": "/assets/images/liverpool-away.jpg",
+    "team": "Liverpool",
+    "sizes": ["S", "M", "L", "XL"],
+    "inStock": true
+  },
+  {
+    "id": 3,
+    "name": "Camiseta Local del Barcelona 2026/27",
+    "price": 19.90,
+    "description": "Camiseta del FC Barcelona con las tradicionales rayas verticales azules y granates.",
+    "image": "/assets/images/barcelona-home.jpg",
+    "team": "Barcelona",
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "inStock": true
+  },
+  {
+    "id": 4,
+    "name": "Camiseta Local del Real Madrid 2026/27",
+    "price": 19.90,
+    "description": "Clásica camiseta blanca del Real Madrid con detalles dorados que celebran la rica historia del club.",
+    "image": "/assets/images/real-madrid-home.jpg",
+    "team": "Real Madrid",
+    "sizes": ["S", "M", "L", "XL"],
+    "inStock": true
+  },
+  {
+    "id": 5,
+    "name": "Camiseta Local del Bayern Munich 2026/27",
+    "price": 19.90,
+    "description": "Tradicional camiseta roja del Bayern Munich con patrones diagonales sutiles.",
+    "image": "/assets/images/bayern-home.jpg",
+    "team": "Bayern Munich",
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "inStock": true
+  },
+  {
+    "id": 6,
+    "name": "Camiseta Visitante del Arsenal 2026/27",
+    "price": 19.90,
+    "description": "Camiseta de visitante del Arsenal con un moderno diseño negro y metálico.",
+    "image": "/assets/images/arsenal-away.jpg",
+    "team": "Arsenal",
+    "sizes": ["S", "M", "L", "XL"],
+    "inStock": true
+  },
+  {
+    "id": 7,
+    "name": "Camiseta Local del PSG 2026/27",
+    "price": 19.90,
+    "description": "Camiseta del Paris Saint-Germain con la icónica franja central azul marino y roja.",
+    "image": "/assets/images/psg-home.jpg",
+    "team": "Paris Saint-Germain",
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "inStock": true
+  },
+  {
+    "id": 8,
+    "name": "Camiseta Local de la Juventus 2026/27",
+    "price": 19.90,
+    "description": "Camiseta de la Juventus con las tradicionales rayas blancas y negras y elementos de diseño modernos.",
+    "image": "/assets/images/juventus-home.jpg",
+    "team": "Juventus",
+    "sizes": ["S", "M", "L", "XL"],
+    "inStock": true
+  }
+]

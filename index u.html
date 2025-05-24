@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="icon" type="image/x-icon" href="logo.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camisetazo - Tienda Deportiva Premium</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        :root {
+            --azul-primario: #0a1f3d;
+            --azul-secundario: #1a3b6d;
+            --azul-acento: #2a5ba8;
+            --negro-mate: #0d0d0d;
+            --degradado-fondo: linear-gradient(135deg, var(--negro-mate) 30%, var(--azul-primario) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--degradado-fondo);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1579952363873-27f3bade9f55?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') center/cover;
+            opacity: 0.1;
+            z-index: -1;
+            animation: moverFondo 20s linear infinite;
+        }
+
+        @keyframes moverFondo {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        /* Calculadora profesional */
+        .calculadora-precio {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .detalle-precio {
+            display: flex;
+            justify-content: space-between;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+
+        .total-container {
+            background: var(--azul-acento);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .precio-total {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+
+        .moneda {
+            font-size: 1.2rem;
+            vertical-align: super;
+        }
+
+        .badge-extra {
+            background: #28a745;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin-left: 1rem;
+        }
+        .contenedor-principal {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .logo {
+            width: 200px;
+            filter: drop-shadow(0 0 15px rgba(42, 91, 168, 0.4));
+            animation: pulse 3s 1;
+            border-radius: 50%;
+            margin: 20px auto;
+        }
+
+        @keyframes flotar {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 1rem 0 0.5rem;
+            color: #e0e0e0;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--azul-acento);
+            transform: scaleX(0);
+            animation: subrayar-titulo 1.5s ease-in-out 1s forwards;
+            box-shadow: 0 0 15px rgba(42, 91, 168, 0.5);
+        }
+
+        @keyframes subrayar-titulo {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+        /* Nuevos estilos para el selector de unidades */
+        .selector-unidades {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .boton-unidad {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--azul-acento);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .boton-unidad.activo {
+            background: var(--azul-acento);
+            box-shadow: 0 0 15px rgba(42, 91, 168, 0.5);
+        }
+
+        /* Contenedor de unidades */
+        .contenedor-unidades {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .unidad {
+            background: rgba(10, 31, 61, 0.7);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(42, 91, 168, 0.3);
+        }
+
+        .unidad h4 {
+            margin-bottom: 1rem;
+            color: var(--azul-acento);
+        }
+
+        .navegacion {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .boton-seccion {
+            background: transparent;
+            border: 2px solid var(--azul-acento);
+            color: white;
+            font-size: 1.1rem;
+            padding: 12px 35px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .boton-seccion.activo {
+            background: var(--azul-acento);
+            box-shadow: 0 0 25px rgba(42, 91, 168, 0.5);
+        }
+
+        .boton-seccion:hover {
+            transform: translateY(-3px);
+        }
+
+        .seccion {
+            display: none;
+            animation: aparecer 0.6s ease forwards;
+        }
+
+        .seccion.activa {
+            display: block;
+        }
+
+        .grid-enlaces {
+            display: grid;
+            gap: 1.5rem;
+            perspective: 1000px;
+        }
+        .boton-extra {
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid var(--azul-acento);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: block;
+        width: 100%;
+        text-align: center;
+        }
+
+        .boton-extra.activo {
+            background: var(--azul-acento);
+            box-shadow: 0 0 15px rgba(42, 91, 168, 0.5);
+        }
+                .boton-version-jugador {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--azul-acento);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .boton-version-jugador.activo {
+            background: var(--azul-acento);
+            box-shadow: 0 0 15px rgba(42, 91, 168, 0.5);
+        }
+
+        .boton-version-jugador:hover {
+            transform: translateY(-2px);
+        }
+        .boton-extra:hover {
+            transform: translateY(-2px);
+        }
+
+        .card-enlace {
+            background: rgba(10, 31, 61, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(42, 91, 168, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            animation: aparecer 0.5s ease forwards;
+        }
+
+        .card-enlace:nth-child(1) { animation-delay: 0.2s; }
+        .card-enlace:nth-child(2) { animation-delay: 0.4s; }
+        .card-enlace:nth-child(3) { animation-delay: 0.6s; }
+        .card-enlace:nth-child(4) { animation-delay: 0.8s; }
+        .card-enlace:nth-child(5) { animation-delay: 1.0s; }
+        .card-enlace:nth-child(6) { animation-delay: 1.2s; }
+        .card-enlace:nth-child(7) { animation-delay: 1.4s; }
+        .card-enlace:nth-child(8) { animation-delay: 1.6s; }
+        .card-enlace:nth-child(9) { animation-delay: 1.8s; }
+        .card-enlace:nth-child(10) { animation-delay: 2.0s; }
+
+        @keyframes aparecer {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-enlace:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .enlace-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            width: 100%;
+        }
+
+        .imagen-previa {
+            width: 70px;
+            height: 70px;
+            border-radius: 10px;
+            margin-right: 1.5rem;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .card-enlace:hover .imagen-previa {
+            transform: scale(1.1);
+        }
+
+        .quienes-somos {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(10, 31, 61, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 1px solid rgba(42, 91, 168, 0.3);
+        }
+        input:disabled {
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.5);
+    cursor: not-allowed;
+}
+        .quienes-somos h2 {
+            font-size: 2.3em;
+            margin-bottom: 2rem;
+            color: var(--azul-acento);
+            text-align: center;
+        }
+
+        .quienes-somos p {
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .garantias {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .garantia-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .garantia-card:hover {
+            background: rgba(42, 91, 168, 0.2);
+            transform: translateY(-5px);
+        }
+        .boton-camiseta-nba {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid var(--azul-acento);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.boton-camiseta-nba.activo {
+    background: var(--azul-acento);
+    box-shadow: 0 0 15px rgba(42, 91, 168, 0.5);
+}
+
+.boton-camiseta-nba:hover {
+    transform: translateY(-2px);
+}
+        .marcas-colaboradoras {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin: 3rem 0;
+            opacity: 0.8;
+        }
+
+        .marca-item {
+            width: 120px;
+            filter: grayscale(1);
+            transition: all 0.3s ease;
+        }
+
+        .marca-item:hover {
+            filter: grayscale(0);
+            transform: scale(1.1);
+        }
+
+        .badge-premium {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--azul-acento);
+            padding: 15px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            box-shadow: 0 0 25px rgba(42, 91, 168, 0.4);
+            animation: flotar 3s ease-in-out infinite;
+            z-index: 1000;
+        }
+
+        footer {
+            margin-top: 4rem;
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid rgba(42, 91, 168, 0.3);
+        }
+
+        .redes-sociales {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .redes-sociales a {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.8rem;
+            transition: all 0.3s;
+        }
+
+        .redes-sociales a:hover {
+            color: var(--azul-acento);
+            transform: translateY(-5px);
+        }
+
+        /* Estilos para la sección de pedidos */
+        .formulario-pedido {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: rgba(10, 31, 61, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(42, 91, 168, 0.3);
+        }
+
+        .formulario-pedido h2 {
+            text-align: center;
+            color: var(--azul-acento);
+            margin-bottom: 2rem;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #e0e0e0;
+        }
+
+        .input-group input,
+        .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--azul-acento);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 10px rgba(74, 144, 226, 0.3);
+        }
+
+        .file-upload {
+            border: 2px dashed var(--azul-acento);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            margin: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload:hover {
+            border-color: #4a90e2;
+            background: rgba(42, 91, 168, 0.1);
+        }
+
+        .upload-area {
+            cursor: pointer;
+        }
+
+        .upload-area i {
+            font-size: 2.5rem;
+            color: var(--azul-acento);
+            margin-bottom: 1rem;
+        }
+
+        .boton-pago {
+            background: #003087;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .boton-pago:hover {
+            background: #00205b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 48, 135, 0.3);
+        }
+
+        #formStatus {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 1rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            min-width: 300px;
+            text-align: center;
+            opacity: 1 !important; 
+            pointer-events: none;
+        }
+
+        #formStatus.success {
+            background: #4CAF50;
+            border: 1px solid #45a049;
+            color: white;
+        }
+        .nota-pago {
+    text-align: center;
+    margin-top: 1rem;
+    opacity: 0.8;
+    font-size: 0.9rem;
+}
+
+.instruccion-pago {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    margin: 2rem 0;
+}
+.boton-version-especial {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid var(--azul-acento);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.boton-version-especial.activo {
+    background: var(--azul-acento);
+    box-shadow: 0 0 15px rgba(42, 91, 168, 0.5);
+}
+
+.boton-version-especial:hover {
+    transform: translateY(-2px);
+}
+
+.instruccion-pago p {
+    margin: 1rem 0;
+}
+
+        #formStatus.error {
+        background: #f44336;
+        border: 1px solid #d32f2f;
+        color: white;
+}
+
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        .badge-premium {
+    z-index: 1000; /* Mantener igual */
+}
+#formStatus {
+    z-index: 9999; /* Mayor que todos los demás elementos */
+}
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+    /* Ajustes para los botones de secciones */
+    .navegacion {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .boton-seccion {
+        width: 100%;
+        padding: 15px;
+        font-size: 1rem;
+    }
+
+    /* Ajustes para los botones de unidades */
+    .selector-unidades {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .boton-unidad {
+        width: 100%;
+        padding: 15px;
+        font-size: 1rem;
+    }
+
+    /* Ajustes para los botones de versión jugador */
+    .boton-version-jugador {
+        width: 100%;
+        padding: 15px;
+        font-size: 1rem;
+    }
+    .boton-version-especial {
+        width: 100%;
+        padding: 15px;
+        font-size: 1rem;
+    }
+    .boton-camiseta-nba {
+        width: 100%;
+        padding: 15px;
+        font-size: 1rem;
+    }
+
+    /* Ajustes para los inputs */
+    .input-group input,
+    .input-group textarea {
+        font-size: 1rem;
+    }
+
+    /* Ajustes para el formulario de pedido */
+    .formulario-pedido {
+        padding: 1rem;
+    }
+
+    .input-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Ajustes para las tarjetas de enlace */
+    .card-enlace {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .imagen-previa {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+
+    /* Ajustes para el precio total */
+    .precio-total {
+        font-size: 1.8rem;
+    }
+
+    /* Ajustes para el badge premium */
+    .badge-premium {
+        font-size: 0.9rem;
+        padding: 10px 15px;
+        bottom: 10px;
+        right: 10px;
+    }
+
+    /* Ajustes en el footer */
+    footer {
+        padding: 1rem 0;
+    }
+
+    .redes-sociales {
+        gap: 1rem;
+    }
+
+    .redes-sociales a {
+        font-size: 1.5rem;
+    }
+
+    footer p {
+        font-size: 0.8rem;
+    }
+
+    /* Ajustes en la sección de garantías */
+    .garantias {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .garantia-card {
+        padding: 1rem;
+    }
+
+    .garantia-card h3 {
+        font-size: 1.2rem;
+    }
+
+    .garantia-card p {
+        font-size: 0.9rem;
+    }
+
+    /* Ajustes en la sección de "Quiénes Somos" */
+    .quienes-somos {
+        padding: 1rem;
+    }
+
+    .quienes-somos h2 {
+        font-size: 1.8rem;
+    }
+
+    .quienes-somos p {
+        font-size: 1rem;
+    }
+
+    /* Ajustes en la animación del fondo */
+    body::before {
+        animation: moverFondo 30s linear infinite;
+    }
+
+    @keyframes moverFondo {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+
+    /* Ajustes en el botón de PayPal */
+    .boton-pago {
+        font-size: 1rem;
+        padding: 15px 25px;
+    }
+
+    /* Ajustes en la nota de pago */
+    .nota-pago {
+        font-size: 0.8rem;
+    }
+
+    /* Ajustes en el formulario de pedido */
+    .formulario-pedido {
+        padding: 1rem;
+    }
+
+    .input-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .input-group input,
+    .input-group textarea {
+        font-size: 1rem;
+    }
+
+    .boton-pago {
+        font-size: 1rem;
+        padding: 12px 20px;
+    }
+
+    .nota-pago {
+        font-size: 0.8rem;
+    }
+}
+
+/* Añade animación de icono */
+@keyframes iconPop {
+    0% { transform: scale(0); }
+    80% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+    </style>
+</head>
+<body>
+    <div id="formStatus"></div>
+    <div class="contenedor-principal">
+        <div class="badge-premium">
+            <a
+               target="_blank" 
+               style="color: white; text-decoration: none; display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-thumbs-up"></i>
+                Compra con confianza
+            </a>
+        </div>
+
+        <header>
+            <img src="logo.png" alt="Logo Camisetazo" class="logo">
+            <h1 class="animate__animated animate__fadeIn">CAMISETAZO</h1>
+
+            <nav class="navegacion">
+                <button class="boton-seccion activo" data-seccion="tienda">Tienda</button>
+                <button class="boton-seccion" data-seccion="quienes-somos">¿Quiénes Somos?</button>
+                <button class="boton-seccion" data-seccion="pedidos">Pedidos</button>
+            </nav>
+        </header>
+
+        <!-- Sección Tienda -->
+        <section id="tienda" class="seccion activa">
+            <div class="grid-enlaces">
+                <div class="card-enlace">
+                    <img src="camfut.png" alt="Camisetas" class="imagen-previa">
+                    <a href="https://2020soccer.x.yupoo.com/albums" class="enlace-btn">
+                        <span>Camisetas Fútbol ⚽</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="card-enlace">
+                    <img src="zap.png" alt="Zapatillas" class="imagen-previa">
+                    <a href="https://eu1688.x.yupoo.com/albums" class="enlace-btn">
+                        <span>Zapatillas 👟</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="card-enlace">
+                    <img src="nba.png" alt="NBA" class="imagen-previa">
+                    <a href="https://x.yupoo.com/photos/05941188/albums" class="enlace-btn">
+                        <span>NBA 🏀</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="card-enlace">
+                    <img src="airpods.png" alt="AirPods" class="imagen-previa">
+                    <a href="https://docs.google.com/document/d/1IXUCHDWRw8osfQltnWGwz2bUFpD_J85-0_Nnq0p55NI/edit?usp=drivesdk" class="enlace-btn">
+                        <span>AirPods 🎧</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="card-enlace">
+                    <img src="botfut.png" alt="Botas Fútbol" class="imagen-previa">
+                    <a href="https://zuqiuliu.x.yupoo.com" class="enlace-btn">
+                        <span>Botas Fútbol ⚽</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="card-enlace">
+                    <img src="f1.png" alt="F1" class="imagen-previa">
+                    <a href="https://x.yupoo.com/photos/yiyisports2016/collections/3551571" class="enlace-btn">
+                        <span>F1 🏎️</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="card-enlace">
+                    <img src="ps4.png" alt="Mandos PS4" class="imagen-previa">
+                    <a href="https://docs.google.com/document/d/15vg3VeVf8gs3R7r6JEaG8_mdgA05hKDKg9mMsdKFVWc/edit?usp=sharing" class="enlace-btn">
+                        <span>Mandos PS4 🎮</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="card-enlace">
+                    <img src="nfl.png" alt="NFL" class="imagen-previa">
+                    <a href="https://nfl-world.x.yupoo.com/" class="enlace-btn">
+                        <span>NFL 🏈</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="card-enlace">
+                    <img src="mlb.png" alt="MLB" class="imagen-previa">
+                    <a href="https://chenzhefuzhuang.x.yupoo.com/collections/3230017" class="enlace-btn">
+                        <span>MLB ⚾</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="card-enlace">
+                    <img src="nhl.png" alt="NHL" class="imagen-previa">
+                    <a href="https://nhl-world.x.yupoo.com/" class="enlace-btn">
+                        <span>NHL 🏑</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+<!-- Sección Quiénes Somos -->
+<section id="quienes-somos" class="seccion">
+    <div class="quienes-somos animate__animated animate__fadeIn" style="text-align: center;">
+        <h2>Nuestra Historia</h2>
+
+        <p style="max-width: 800px; margin: 0 auto 2rem; line-height: 1.7;">
+            En Camisetazo nos apasiona conectar a los verdaderos amantes del deporte con artículos premium de las mejores marcas. Nos especializamos en ofrecer productos de alta calidad y artículos exclusivos que permiten vivir la emoción del deporte al mejor precio. Combinamos nuestro conocimiento experto con un servicio personalizado para garantizar que cada compra supere tus expectativas:
+        </p>
+
+        <!-- Casilla Instagram -->
+        <div class="garantia-card" style="max-width: 500px; margin: 2rem auto;">
+            <i class="fab fa-instagram" style="font-size: 2.5rem; color: #E1306C; margin-bottom: 1rem;"></i>
+            <h3>Síguenos en Instagram</h3>
+            <a href="https://www.instagram.com/camisetazo._/" target="_blank" 
+               style="color: var(--azul-acento); text-decoration: none; font-weight: 600;
+                      display: inline-block; margin: 0.5rem 0;">
+                @camisetazo._ ➔
+            </a>
+            <p style="margin-top: 0.5rem; opacity: 0.9;">Novedades diarias | Ofertas exclusivas</p>
+        </div>
+
+        <!-- Grid 2x2 -->
+        <div class="garantias" style="grid-template-columns: repeat(2, 1fr); max-width: 1000px; margin: 0 auto;">
+            <!-- Casilla 1 -->
+            <div class="garantia-card">
+                <i class="fas fa-shield-alt" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
+                <h3>Garantía de Pago</h3>
+                <p>Transacciones seguras con protección al comprador</p>
+            </div>
+
+            <!-- Casilla 2 -->
+            <div class="garantia-card">
+                <i class="fas fa-shipping-fast" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
+                <h3>Envío Gratuito Express</h3>
+                <p>Entrega en 7-14 días con seguimiento del paquete</p>
+            </div>
+
+            <!-- Casilla 3 -->
+            <div class="garantia-card">
+                <i class="fas fa-users" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
+                <h3>Comunidad</h3>
+                <p>+100 clientes satisfechos</p>
+                <div style="color: #ffd700; margin-top: 0.5rem;">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+
+            <!-- Casilla 4 -->
+            <div class="garantia-card">
+                <i class="fas fa-headset" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
+                <h4>Atención al cliente</h4>
+                <p>Obtén respuestas rápidas con nuestro servicio de atención al cliente</p>
+            </div>
+        </div>
+</section>
+<!-- Nueva sección de Pedidos -->
+<section id="pedidos" class="seccion">
+    <div class="formulario-pedido">
+        <h2>Realizar Pedido</h2>
+        <form id="pedidoForm" action="https://formsubmit.co/ac88c19c0b46633676d4b3e8db41dea8" method="POST" onsubmit="return prepararRedireccion(event)">
+            <input type="hidden" name="_next" value="https://compra-exitosa.vercel.app/">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_subject" value="Nuevo pedido con pago confirmado">
+            <input type="hidden" name="precio_total" id="precioTotal">
+
+            <div class="selector-unidades">
+                <button type="button" class="boton-unidad activo" data-unidades="1">1 Unidad</button>
+                <button type="button" class="boton-unidad" data-unidades="2">2 Unidades</button>
+                <button type="button" class="boton-unidad" data-unidades="3">3 Unidades</button>
+                <button type="button" class="boton-unidad" data-unidades="5">5 Unidades</button>
+            </div>
+
+            <!-- Campos requeridos por Formspree -->
+            <input type="hidden" name="_language" value="es">
+            <input type="hidden" name="_subject" value="Nuevo pedido de Camisetazo">
+            <input type="hidden" name="_template" value="table">
+        <div class="contenedor-unidades" id="contenedorUnidades"></div>
+            <!-- Campos del formulario -->
+            <!-- Campos de información -->
+            <div class="input-grid">
+                <div class="input-group">
+                    <label for="emailPaypal">Correo de PayPal: ¡IMPORTANTE!</label>
+                    <input type="email" id="emailPaypal" name="emailPaypal" required placeholder="Ej: tucorreo@example.com">
+                </div>
+                <div class="input-group">
+    <label for="usuario">Usuario Instagram: ¡IMPORTANTE!</label>
+    <input 
+        type="text" 
+        id="usuario" 
+        name="usuario" 
+        required 
+        placeholder="Ej: @roberto_carlos03"
+        pattern="^[A-Za-z0-9_.]{1,30}$"
+        title="Por favor, ingresa un nombre de usuario válido de Instagram (debe tener entre 1 y 30 caracteres)."
+    >
+</div>
+                <div class="input-group">
+                    <label for="direccion">Dirección completa:</label>
+                    <textarea id="direccion" name="direccion" required rows="7">Contact Name:
+Address Line:
+City:
+State:
+Country:
+Postal Code:
+Phone Number:</textarea>
+                </div>
+            </div>
+
+            <!-- Sección de cálculo de precio -->
+            <div class="calculadora-precio">
+                <h3>Desglose del Precio</h3>
+                <div class="detalle-precio">
+                    <span>Precio Base (<span id="cantidad-unidades">1</span> unidad<span id="plural-unidades"></span>):</span>
+                    <span><span id="precio-base-detalle">19.90</span>€</span>
+                </div>
+                <div class="detalle-precio">
+                    <span>Parches personalizados:</span>
+                    <span><span id="cantidad-parches">0</span> × 1€ = <span id="total-parches">0.00</span>€</span>
+                </div>
+                <div class="detalle-precio">
+                    <span>Dorsales personalizados:</span>
+                    <span><span id="cantidad-dorsales">0</span> × 2€ = <span id="total-dorsales">0.00</span>€</span>
+                </div>
+                <div class="detalle-precio">
+                    <span>Versiones Jugador / Retro:</span>
+                    <span><span id="cantidad-versiones">0</span> × 3€ = <span id="total-versiones">0.00</span>€</span>
+                </div>
+                <div class="detalle-precio">
+                    <span>Camisetas NBA:</span>
+                    <span><span id="cantidad-camisetas-nba">0</span> × 5€ = <span id="total-camisetas-nba">0.00</span>€</span>
+                </div>
+                <div class="total-container">
+                    <div>Total a Pagar</div>
+                    <div class="precio-total">
+                        <span class="moneda">€</span>
+                        <span id="precioDisplay">19.90</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botón de pago -->
+            <div id="paso1">
+                <p class="nota-pago">
+                    * Por favor selecciona la opción 'Enviar a amigos y familiares.' <br>
+                    * Añade tu @ de Instagram en el asunto del pago para agilizar la verificación.<br>
+                    * El formulario se enviará cuando cierres la ventana de PayPal.
+                </p>
+                <br>
+                <button type="button" id="paypalButton" class="boton-pago" style="margin-top: 10px;">
+                    <i class="fab fa-paypal"></i> Pagar con PayPal
+                </button>
+            </div>         
+        </form>
+    </div>
+</section>
+<footer>
+    <div class="redes-sociales">
+        <a href="https://www.instagram.com/camisetazo._/"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.tiktok.com/@camisetazo"><i class="fab fa-tiktok"></i></a>
+    </div>
+    <p style="margin-top: 2rem; opacity: 0.8; font-size: 0.9rem;">
+        © 2025 Camisetazo. Todos los derechos reservados
+    </p>
+</footer>
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Manejo de pestañas
+    document.querySelectorAll('.boton-seccion').forEach(boton => {
+        boton.addEventListener('click', function() {
+            // Remover clases activas
+            document.querySelectorAll('.boton-seccion').forEach(b => b.classList.remove('activo'));
+            document.querySelectorAll('.seccion').forEach(s => s.classList.remove('activa'));
+
+            // Activar la sección correspondiente
+            const seccionId = this.dataset.seccion;
+            this.classList.add('activo');
+            document.getElementById(seccionId).classList.add('activa');
+        });
+    });
+
+    // Variables y configuración
+    let unidades = 0;
+    const PRECIOS_BASE = {1: 19.90, 2: 37.80, 3: 54.90, 5: 84.90};
+    const EXTRAS = {parche: 1, dorsal: 2, versionJugador: 3, camisetaNBA: 5};
+
+    // Función para crear unidades dinámicas
+    function crearUnidad(numeroUnidad) {
+    return `
+        <div class="unidad">
+            <h4>Unidad ${numeroUnidad}</h4>
+          
+            <div class="input-group">
+                <label>Enlace del producto (opcional):</label>
+                <input type="url" name="link[]" placeholder="Ej: https://...">
+            </div>
+            
+            <div class="input-group">
+                <label>Parche:</label>
+                <input type="text" name="parche[]" placeholder="Ej: La Liga, Champions..." class="input-parche">
+            </div>
+            
+            <div class="input-group">
+                <label>Dorsal:</label>
+                <input type="text" name="dorsal[]" placeholder="Ej: Nombre: ... Número: ..." class="input-dorsal">
+            </div>
+
+            <div class="input-group">
+                <label>Talla:</label>
+                <input type="text" name="talla[]" required placeholder="Ej: M, 42, etc.">
+            </div>
+            
+            <div class="input-group">
+                <label>Versión Jugador:</label>
+                <button type="button" class="boton-version-jugador">
+                    <span>DESACTIVADO</span>
+                </button>
+                <input type="hidden" name="versionJugador[]" value="No">
+            </div>
+
+            <!-- Nuevo extra: Versión Especial -->
+            <div class="input-group">
+                <label>Versión Retro:</label>
+                <button type="button" class="boton-version-especial">
+                    <span>DESACTIVADO</span>
+                </button>
+                <input type="hidden" name="versionRetro[]" value="No">
+            </div>
+            <div class="input-group">
+            <label>Camiseta NBA:</label>
+            <button type="button" class="boton-camiseta-nba">
+                <span>DESACTIVADO</span>
+            </button>
+            <input type="hidden" name="camisetaNBA[]" value="No">
+        </div>
+        </div>
+    `;
+}
+
+    // Manejar cambio de unidades
+    document.querySelectorAll('.boton-unidad').forEach(boton => {
+        boton.addEventListener('click', function() {
+            unidades = parseInt(this.dataset.unidades);
+
+            // Actualizar botones
+            document.querySelectorAll('.boton-unidad').forEach(b => b.classList.remove('activo'));
+            this.classList.add('activo');
+
+            // Generar unidades
+            const contenedor = document.getElementById('contenedorUnidades');
+            contenedor.innerHTML = '';
+            for(let i = 1; i <= unidades; i++) {
+                contenedor.innerHTML += crearUnidad(i);
+            }
+
+            // Actualizar precios
+            actualizarPrecio();
+            configurarEventosUnidades(); // Configurar eventos después de generar las unidades
+        });
+    });
+
+    // Función de cálculo de precio
+    function actualizarPrecio() {
+    let precioBase = PRECIOS_BASE[unidades];
+    let total = precioBase;
+    let parches = 0;
+    let dorsales = 0;
+    let versionesJugador = 0;
+    let versionesEspecial = 0;
+    let camisetasNBA = 0;
+
+    // Calcular extras para cada unidad
+    document.querySelectorAll('.unidad').forEach(unidad => {
+        const parche = unidad.querySelector('[name="parche[]"]').value.trim();
+        const dorsal = unidad.querySelector('[name="dorsal[]"]').value.trim();
+        const versionJugador = unidad.querySelector('[name="versionJugador[]"]').value === 'Sí';
+        const versionEspecial = unidad.querySelector('[name="versionRetro[]"]').value === 'Sí';
+        const camisetaNBA = unidad.querySelector('[name="camisetaNBA[]"]').value === 'Sí';
+
+        // Validar que las camisetas NBA tengan dorsal
+        if (camisetaNBA && !dorsal) {
+            alert("Las camisetas NBA requieren un dorsal obligatorio.");
+            return;
+        }
+
+        // Si la camiseta NBA está activada
+        if (camisetaNBA) {
+            if (parche) {
+                alert("No se pueden añadir parches a una camiseta NBA.");
+                unidad.querySelector('[name="parche[]"]').value = '';
+            }
+            dorsales++; // El dorsal es obligatorio para NBA
+        } else {
+            if (parche) parches++;
+            if (dorsal) dorsales++;
+        }
+
+        if (versionJugador) versionesJugador++;
+        if (versionEspecial) versionesEspecial++;
+        if (camisetaNBA) camisetasNBA++;
+    });
+
+    // Calcular totales
+    const totalParches = parches * EXTRAS.parche;
+    const totalDorsales = dorsales * EXTRAS.dorsal; // Ahora siempre se cobra el dorsal
+    const totalVersionesJugador = versionesJugador * EXTRAS.versionJugador;
+    const totalVersionesEspecial = versionesEspecial * EXTRAS.versionJugador;
+    const totalCamisetasNBA = camisetasNBA * EXTRAS.camisetaNBA;
+
+    total += totalParches + totalDorsales + totalVersionesJugador + totalVersionesEspecial + totalCamisetasNBA;
+
+    // Actualizar display
+    document.getElementById('cantidad-unidades').textContent = unidades;
+    document.getElementById('plural-unidades').textContent = unidades > 1 ? 'es' : '';
+    document.getElementById('precio-base-detalle').textContent = PRECIOS_BASE[unidades].toFixed(2);
+
+    document.getElementById('cantidad-parches').textContent = parches;
+    document.getElementById('total-parches').textContent = totalParches.toFixed(2);
+
+    document.getElementById('cantidad-dorsales').textContent = dorsales;
+    document.getElementById('total-dorsales').textContent = totalDorsales.toFixed(2);
+
+    document.getElementById('cantidad-versiones').textContent = versionesJugador + versionesEspecial;
+    document.getElementById('total-versiones').textContent = (totalVersionesJugador + totalVersionesEspecial).toFixed(2);
+
+    document.getElementById('cantidad-camisetas-nba').textContent = camisetasNBA;
+    document.getElementById('total-camisetas-nba').textContent = totalCamisetasNBA.toFixed(2);
+
+    document.getElementById('precioDisplay').textContent = total.toFixed(2);
+    document.getElementById('precioTotal').value = total.toFixed(2);
+
+    return total;
+}
+    function prepararRedireccion(event) {
+    // Obtener datos necesarios
+    const total = document.getElementById('precioDisplay').textContent;
+    const direccion = document.getElementById('direccion').value;
+    
+    // Codificar parámetros
+    const params = new URLSearchParams({
+        total: total,
+        direccion: encodeURIComponent(direccion)
+    });
+    
+    // Construir URL de redirección
+    const baseUrl = window.location.href.replace('index.html', 'exito.html');
+    document.getElementById('nextUrl').value = `${baseUrl}?${params.toString()}`;
+    
+    return true; // Continuar con el envío normal del formulario
+    }
+    // Configurar eventos para las unidades
+    function configurarEventosUnidades() {
+   // Manejar versión jugador
+document.querySelectorAll('.boton-version-jugador').forEach(boton => {
+    boton.addEventListener('click', function() {
+        const hiddenInput = this.parentElement.querySelector('[name="versionJugador[]"]');
+        const unidad = this.closest('.unidad');
+        const botonNBA = unidad.querySelector('.boton-camiseta-nba');
+        const botonEspecial = unidad.querySelector('.boton-version-especial');
+
+        // Si se activa la versión jugador, desactivar NBA y Retro
+        if (!this.classList.contains('activo')) {
+            if (botonNBA.classList.contains('activo')) {
+                botonNBA.classList.remove('activo');
+                botonNBA.querySelector('span').textContent = 'DESACTIVADO';
+                botonNBA.parentElement.querySelector('[name="camisetaNBA[]"]').value = 'No';
+            }
+            if (botonEspecial.classList.contains('activo')) {
+                botonEspecial.classList.remove('activo');
+                botonEspecial.querySelector('span').textContent = 'DESACTIVADO';
+                botonEspecial.parentElement.querySelector('[name="versionRetro[]"]').value = 'No';
+            }
+        }
+
+        // Cambiar estado del botón
+        this.classList.toggle('activo');
+        const activo = this.classList.contains('activo');
+        this.querySelector('span').textContent = activo ? 'ACTIVADO' : 'DESACTIVADO';
+        hiddenInput.value = activo ? 'Sí' : 'No';
+
+        // Actualizar el precio
+        actualizarPrecio();
+    });
+});
+
+    // Manejar versión retro
+document.querySelectorAll('.boton-version-especial').forEach(boton => {
+    boton.addEventListener('click', function() {
+        const hiddenInput = this.parentElement.querySelector('[name="versionRetro[]"]');
+        const unidad = this.closest('.unidad');
+        const botonNBA = unidad.querySelector('.boton-camiseta-nba');
+        const botonJugador = unidad.querySelector('.boton-version-jugador');
+
+        // Si se activa la versión retro, desactivar NBA y Jugador
+        if (!this.classList.contains('activo')) {
+            if (botonNBA.classList.contains('activo')) {
+                botonNBA.classList.remove('activo');
+                botonNBA.querySelector('span').textContent = 'DESACTIVADO';
+                botonNBA.parentElement.querySelector('[name="camisetaNBA[]"]').value = 'No';
+            }
+            if (botonJugador.classList.contains('activo')) {
+                botonJugador.classList.remove('activo');
+                botonJugador.querySelector('span').textContent = 'DESACTIVADO';
+                botonJugador.parentElement.querySelector('[name="versionJugador[]"]').value = 'No';
+            }
+        }
+
+        // Cambiar estado del botón
+        this.classList.toggle('activo');
+        const activo = this.classList.contains('activo');
+        this.querySelector('span').textContent = activo ? 'ACTIVADO' : 'DESACTIVADO';
+        hiddenInput.value = activo ? 'Sí' : 'No';
+
+        // Actualizar el precio
+        actualizarPrecio();
+    });
+});
+// Manejar camiseta NBA
+document.querySelectorAll('.boton-camiseta-nba').forEach(boton => {
+    boton.addEventListener('click', function() {
+        const hiddenInput = this.parentElement.querySelector('[name="camisetaNBA[]"]');
+        const unidad = this.closest('.unidad');
+        const botonJugador = unidad.querySelector('.boton-version-jugador');
+        const botonEspecial = unidad.querySelector('.boton-version-especial');
+        const inputParche = unidad.querySelector('[name="parche[]"]');
+        const inputDorsal = unidad.querySelector('[name="dorsal[]"]');
+
+        // Si se activa la camiseta NBA
+        if (!this.classList.contains('activo')) {
+            // Desactivar otros botones
+            if (botonJugador.classList.contains('activo')) {
+                botonJugador.classList.remove('activo');
+                botonJugador.querySelector('span').textContent = 'DESACTIVADO';
+                botonJugador.parentElement.querySelector('[name="versionJugador[]"]').value = 'No';
+            }
+            if (botonEspecial.classList.contains('activo')) {
+                botonEspecial.classList.remove('activo');
+                botonEspecial.querySelector('span').textContent = 'DESACTIVADO';
+                botonEspecial.parentElement.querySelector('[name="versionRetro[]"]').value = 'No';
+            }
+
+            // Bloquear el campo de parche
+            inputParche.disabled = true;
+            inputParche.value = ''; // Limpiar el campo de parche
+
+            // Habilitar el campo de dorsal (pero será gratuito)
+            inputDorsal.disabled = false;
+        } else {
+            // Si se desactiva la camiseta NBA, habilitar el campo de parche
+            inputParche.disabled = false;
+            inputDorsal.disabled = false;
+        }
+        if (this.classList.contains('activo')) {
+        // Si se desactiva la camiseta NBA, habilitar el campo de parche
+        inputParche.disabled = false;
+        inputDorsal.disabled = false;
+}
+
+        // Cambiar estado del botón NBA
+        this.classList.toggle('activo');
+        const activo = this.classList.contains('activo');
+        this.querySelector('span').textContent = activo ? 'ACTIVADO' : 'DESACTIVADO';
+        hiddenInput.value = activo ? 'Sí' : 'No';
+
+        // Actualizar el precio
+        actualizarPrecio();
+    });
+});
+    // Eventos para inputs
+    document.querySelectorAll('.input-parche, .input-dorsal').forEach(input => {
+        input.addEventListener('input', actualizarPrecio);
+    });
+}
+
+    // Función para abrir la ventana de PayPal
+    function abrirPayPal(total) {
+        const width = 600;
+        const height = 800;
+        const left = (window.innerWidth - width) / 2;
+        const top = (window.innerHeight - height) / 2;
+        const ventanaPayPal = window.open(
+            `https://www.paypal.com/paypalme/camisetazo/${total}EUR`,
+            'PagoPayPal',
+            `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`
+        );
+
+        // Verificar si la ventana de PayPal se ha cerrado
+        const intervalo = setInterval(() => {
+            if (ventanaPayPal.closed) {
+                clearInterval(intervalo);
+                mostrarExito('Solicitud completada. Espere');
+                enviarFormulario();
+            }
+        }, 500);
+
+        return ventanaPayPal;
+    }
+
+    // Función para mostrar notificaciones de éxito
+    function mostrarExito(mensaje) {
+        const notificacion = document.getElementById('formStatus');
+        notificacion.className = 'success animate__animated animate__fadeIn';
+        notificacion.innerHTML = `<i class="fas fa-check-circle"></i> ${mensaje}`;
+        notificacion.style.display = 'block';
+        setTimeout(() => notificacion.style.display = 'none', 5000);
+    }
+
+    // Función para enviar el formulario
+    function enviarFormulario() {
+        document.getElementById('precioTotal').value = document.getElementById('precioDisplay').textContent;
+        document.getElementById('pedidoForm').submit();
+    }
+
+    // Evento del botón de PayPal
+    document.getElementById('paypalButton').addEventListener('click', function(event) {
+        event.preventDefault();
+
+        // Obtener el email de PayPal
+        const emailPaypal = document.getElementById('emailPaypal').value.trim();
+
+        // Validar el email
+        if (!emailPaypal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailPaypal)) {
+            alert("Por favor, ingresa un correo válido de PayPal.");
+            return;
+        }
+        const usuarioInstagram = document.getElementById('usuario').value.trim();
+    
+        // Validar el usuario de Instagram
+        if (!usuarioInstagram || !/^@[A-Za-z0-9_.]{1,30}$/.test(usuarioInstagram)) {
+            alert("Por favor, ingresa un nombre de usuario válido de Instagram (debe comenzar con @ y tener entre 1 y 30 caracteres).");
+            return;
+        }
+
+        // Validar que al menos haya un link subida para cada unidad
+        const unidades = document.querySelectorAll('.unidad');
+    for (let i = 0; i < unidades.length; i++) {
+        const unidad = unidades[i];
+        const camisetaNBA = unidad.querySelector('[name="camisetaNBA[]"]').value === 'Sí';
+        const dorsal = unidad.querySelector('[name="dorsal[]"]').value.trim();
+        
+        // Validar que las camisetas NBA tengan dorsal
+        if (camisetaNBA && !dorsal) {
+            alert(`La Unidad ${i + 1} es una camiseta NBA y requiere un dorsal obligatorio.`);
+            return;
+        }
+
+        // Validar que no haya parches en camisetas NBA
+        if (camisetaNBA && unidad.querySelector('[name="parche[]"]').value.trim()) {
+            alert(`Error: No se pueden añadir parches a una camiseta NBA en la Unidad ${i + 1}.`);
+            return;
+        }
+    }
+
+        // Obtener el precio total
+        const total = parseFloat(document.getElementById('precioDisplay').textContent);
+
+        // Abrir la ventana de PayPal
+        abrirPayPal(total);
+    });
+
+    // Inicialización
+    document.querySelector('.boton-unidad.activo').click();
+    document.querySelector('.boton-unidad[data-unidades="0"]').click();
+    configurarEventosUnidades();
+
+    // Actualizar precio al cambiar cualquier input
+    document.addEventListener('input', function(e) {
+        if(e.target.matches('[name="parche[]"], [name="dorsal[]"]')) {
+            actualizarPrecio();
+        }
+    });
+});
+</script>
+</body>
+</html>
