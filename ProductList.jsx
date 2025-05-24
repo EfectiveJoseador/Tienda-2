@@ -7,24 +7,22 @@ function ProductList() {
   const [error, setError] = useState(null);
   
   useEffect(() => {
-    // Fetch products from the JSON file
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch('/products.json');
-        if (!response.ok) {
-          throw new Error('Failed to fetch products');
-        }
-        const data = await response.json();
-        setProducts(data);
-        setLoading(false);
-      } catch (err) {
-        setError('Failed to load products. Please try again later.');
-        setLoading(false);
-      }
-    };
-    
-    fetchProducts();
-  }, []);
+  const fetchProducts = async () => {
+    try {
+      // Usa una ruta relativa al público (asegúrate de que el archivo esté en /public)
+      const response = await fetch(process.env.PUBLIC_URL + '/products.json');
+      if (!response.ok) throw new Error('Error 404: Archivo no encontrado');
+      const data = await response.json();
+      setProducts(data);
+    } catch (err) {
+      setError('Error al cargar los productos. Verifica la consola para más detalles.');
+      console.error("Error fetching products:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchProducts();
+}, []);
   
   if (loading) {
     return (
