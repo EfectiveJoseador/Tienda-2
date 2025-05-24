@@ -10,7 +10,7 @@ function ProductList() {
     // Fetch products from the JSON file
     const fetchProducts = async () => {
       try {
-        const response = await fetch('./products.json');
+        const response = await fetch('/products.json');
         if (!response.ok) {
           throw new Error('Failed to fetch products');
         }
